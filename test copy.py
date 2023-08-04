@@ -54,7 +54,7 @@ for i in houses_captured:
 """
 
 # se capturou tres de uma mesma coluna ou linha e é uma sequencia de três, ganha
-
+import itertools as it
 
 class Board:
     # cria a board 3x3
@@ -100,13 +100,38 @@ class Players(Board):
         return turn
     """
 
+"""
+
+houses = {"A": [1,2], "B": [3,2], "C": [2]}
+for key in houses.keys():
+    if len(houses[key]) == 3:
+        print(True)
+
+for i in range(len(houses)):
+    flat_list = list(it.chain.from_iterable(houses.values()))
+    if flat_list.count(i) == 3:
+        print(True)
+
+"""
+
+
 class GameState():
     def __init__(self):
         self.on = True
         self.victory = False
 
-    def check_game_state(player: Players, board: Board):
-        pass
+    def check_game_state(self, player: Players):
+        #checa se ganhou por colunas
+        for key in player.houses_captured.keys():
+            if len(player.houses_captured[key]) == 3:
+                self.victory = True
+                print(True)
+        #checa se ganhou por linhas
+        for i in range(len(player.houses_captured)):
+            flat_list = list(it.chain.from_iterable(player.houses_captured.values()))
+            if flat_list.count(i) == 3:
+                self.victory = True
+
     
     # logica de chacagem para condições de vitória
 
@@ -154,6 +179,7 @@ def game_start():
             player = player_2
         play(player, board)
         round_count += 1
+        game_state.check_game_state(player)
 
 
 game_start()
