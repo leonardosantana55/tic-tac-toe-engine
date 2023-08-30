@@ -81,23 +81,22 @@ def play(player: Players, board: Board):
     while valid_play == False:
         print(f'{player.name}, escolha uma casa')
         row_column = input().upper()
-        
-        row = row_column[0]
-        column = int(row_column[1])
-        
+                
         def invalid_play():
             valid_play = False
             print("essa não é uma escolha válida!")
 
         try:
-            if board.board.get(row).get(column) == 0: 
+            row = row_column[0]
+            column = int(row_column[1])
+            if board.board.get(row).get(column) == 0: #checks if the cell is not taken yet
                 valid_play = True
                 player.houses_captured[row].append(column)
                 board.update(row_column, player.mark)
                 return row_column
             else:
                 invalid_play()   
-        except AttributeError:
+        except:
                 invalid_play()
 
 def game_start():
